@@ -8,6 +8,7 @@ import {
   ParseIntPipe,
   Post,
   Query,
+  ValidationPipe,
 } from '@nestjs/common';
 import { EpisodesService } from './episodes.service';
 import { CreateEpisodeDto } from './dto/create-episode.dto';
@@ -40,7 +41,7 @@ export class EpisodesController {
   }
 
   @Post()
-  create(@Body() episode: CreateEpisodeDto) {
+  create(@Body(ValidationPipe) episode: CreateEpisodeDto) {
     return this.episodesService.create(episode);
   }
 }

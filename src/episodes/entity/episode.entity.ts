@@ -3,5 +3,5 @@ export class Episode {
   title: string;
   description: string;
   url: string;
-  featured: boolean;
+  featured?: boolean;
 }
