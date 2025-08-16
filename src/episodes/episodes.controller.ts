@@ -1,9 +1,11 @@
 import {
   Body,
   Controller,
+  DefaultValuePipe,
   Get,
   NotFoundException,
   Param,
+  ParseIntPipe,
   Post,
   Query,
 } from '@nestjs/common';
@@ -19,7 +21,10 @@ export class EpisodesController {
   ) {}
 
   @Get()
-  findAll(@Query('sort') sort: 'asc' | 'desc' = 'desc') {
+  findAll(
+    @Query('sort') sort: 'asc' | 'desc' = 'desc',
+    @Query('limit', new DefaultValuePipe('100'), ParseIntPipe) limit: number,
+  ) {
     return this.episodesService.findAll(sort);
   }
 
