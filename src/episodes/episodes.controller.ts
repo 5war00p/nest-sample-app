@@ -1,10 +1,14 @@
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { EpisodesService } from './episodes.service';
 import { CreateEpisodeDto } from './dto/create-episode.dto';
+import { ConfigService } from '../config/config.service';
 
 @Controller('episodes')
 export class EpisodesController {
-  constructor(private episodesService: EpisodesService) {}
+  constructor(
+    private episodesService: EpisodesService,
+    private configService: ConfigService,
+  ) {}
 
   @Get()
   findAll(@Query('sort') sort: 'asc' | 'desc' = 'desc') {
@@ -13,7 +17,11 @@ export class EpisodesController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.episodesService.findOne(id);
+    const episode = this.episodesService.findOne(id);
+    if (!episode) {
+      return Promise.reject(new Error('Episode not found'));
+    }
+    return episode;
   }
 
   @Post()
